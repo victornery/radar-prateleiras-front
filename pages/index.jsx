@@ -1,8 +1,16 @@
-import React, { useState } from "react"
-
-import Menu from "../src/components/Menu"
+import React, { useState, useCallback } from "react"
 import Map from "../src/components/Map"
-import Main from "../src/styles/pages/home"
+
+import {
+  Main,
+  InitialView,
+  OverLay,
+  Welcome,
+  Heading,
+  HolderBtns,
+  Button,
+  Social
+} from "../src/styles/pages/home"
 
 import { useData } from "../src/context/dataContext"
 
@@ -76,10 +84,75 @@ const Index = () => {
   // Our custom hook to get context values
   const { data, loadingData } = useData()
   const [geolocationInfos, setGeo] = useState(DEFAULT.GEO)
+  const [showMap, setShowMap] = useState(false)
+  const [isGetLocation, setIsGetLocation] = useState(false)
+  const [apiHasLoaded, setApiHasLoaded] = useState(false)
+
+  const handleShowMap =() => setShowMap(true)
+
+  const handleGeolocation = () => {
+    if (navigator.geolocation) {
+      try {
+        setIsGetLocation(true)
+        navigator.geolocation.getCurrentPosition(position => {
+          const { coords } = position
+          const newLocation = {
+            center: {
+              lat: coords.latitude || coords.lat,
+              lng: coords.longitude || coords.lng
+            },
+            zoom: 15
+          }
+          setGeo(newLocation)
+          handleShowMap()
+          setIsGetLocation(false)
+        })
+      } catch (error) {
+        console.log("Error while capture geolocation: ", error)
+      }
+    }
+  }
+
+  const handleApiHasLoaded = (map, maps) => {
+    setApiHasLoaded(true)
+  }
 
   return (
     <Main>
-      <Map markers={markers} settings={DEFAULT.MAP_SETTINGS} geo={geolocationInfos} />
+      <InitialView hide={showMap}>
+        <OverLay hide={showMap} />
+        <Welcome hide={showMap}>
+          <Heading> Radar Prateleiras </Heading>
+          <Heading as="h3">
+            Encontre Álcool gel, máscaras e afins na sua região.
+          </Heading>
+          <Heading as="h3">
+            Para começar, aceite compartilhar sua localização.
+          </Heading>
+          <HolderBtns>
+            <Button disable={isGetLocation} onClick={handleGeolocation}>
+              {isGetLocation ? "Carregando..." : "Compartilhar Localização"}
+            </Button>
+            <span>ou</span>
+            <Button onClick={handleShowMap}> Buscar manualmente </Button>
+          </HolderBtns>
+          <Social>
+            <a href="https://bit.ly/fale-com-radar" target="_blank" rel="noopener">
+              <img src='/whatsapp.svg' alt="Fale Conosco" />
+            </a>
+            <a href="http://bit.ly/ig-radar-prat" target="_blank" rel="noopener">
+              <img src='instagram.svg' alt="Veja nossas redes sociais" />
+            </a>
+          </Social>
+        </Welcome>
+      </InitialView>
+      <Map
+        markers={markers}
+        settings={DEFAULT.MAP_SETTINGS}
+        geo={geolocationInfos}
+        geoDefult={DEFAULT.GEO}
+        apiHasLoaded={handleApiHasLoaded}
+      />
     </Main>
   )
 }

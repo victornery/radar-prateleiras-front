@@ -9,22 +9,26 @@ export default ({ children }) => {
 
   useEffect(() => {
     // Listen authenticated user
-    const loadDataBase = firebase
-      .database()
-      .ref()
-      .on(
-        'value',
-        snapshot => {
-          if (!loadingData) setLoadingData(true)
-          setData(snapshot.val())
-          setTimeout(() => {
-            setLoadingData(false)
-          }, 0)
-        },
-        error => {
-          console.log(error)
-        }
-      )
+    let loadDataBase = null
+    try {
+      loadDataBase = firebase
+        .database()
+        .ref()
+        .on(
+          'value',
+          snapshot => {
+            if (!loadingData) setLoadingData(true)
+            setData(snapshot.val())
+          },
+          error => {
+            throw Error(error)
+          }
+        )
+    } catch (error) {
+    } finally {
+      setLoadingData(false)
+    }
+
     return () => loadDataBase()
   }, [])
 
