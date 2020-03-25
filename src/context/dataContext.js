@@ -2,24 +2,30 @@ import { useState, useEffect, createContext, useContext } from 'react'
 import firebase from '../vendor/firebase/clientApp'
 
 export const DataContext = createContext()
- 
+
 export default ({ children }) => {
   const [data, setData] = useState(null)
   const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
     // Listen authenticated user
-    const loadDataBase = firebase.database()
+    const loadDataBase = firebase
+      .database()
       .ref()
-      .on("value", (snapshot) => {
-      if(!loadingData) setLoadingData(true);
-      setData(snapshot.val());
-      setTimeout(() => {setLoadingData(false)},0)
-
-    }, function(error) {
-      console.log(error)
-    })
-    return () => loadDataBase();
+      .on(
+        'value',
+        snapshot => {
+          if (!loadingData) setLoadingData(true)
+          setData(snapshot.val())
+          setTimeout(() => {
+            setLoadingData(false)
+          }, 0)
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    return () => loadDataBase()
   }, [])
 
   return (
