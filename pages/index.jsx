@@ -78,11 +78,9 @@ const Index = () => {
   const [geolocationInfos, setGeo] = useState(DEFAULT.GEO)
 
   return (
-    <>
-      <Main>
-        <Map markers={markers} settings={DEFAULT.MAP_SETTINGS} geo={geolocationInfos} />
-      </Main>
-    </>
+    <Main>
+      <Map markers={markers} settings={DEFAULT.MAP_SETTINGS} geo={geolocationInfos} />
+    </Main>
   )
 }
 
