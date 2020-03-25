@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { css } from '@emotion/core'
 
 export const Holder = styled.div`
-  transform: translate(0, -40px);
+  transform: translate(-20px, -30px);
   position: relative;
 `
 export const IconHolder = styled.div`

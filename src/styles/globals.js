@@ -35,6 +35,10 @@ const base = `
     padding: 0;
     list-style: none;
   }
+
+  button {
+    font-family: ${typography.button};
+  }
   
   input,
   select,
@@ -51,6 +55,7 @@ const base = `
 
   h1 {
     font: ${typography.h1};
+    margin: 1rem 0;
   }
 
   h2 {
@@ -59,6 +64,7 @@ const base = `
 
   h3 {
     font: ${typography.h3};
+    margin: .5rem 0;
   }
 
   @media (min-width: ${breakpoints.small}px) {

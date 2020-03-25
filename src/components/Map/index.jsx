@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import GoogleMapReact from 'google-map-react'
 
 import Marker from '../Marker'
 
 import { Container } from './styles'
 
-const Map = ({ settings, geo, markers }) => {
+const Map = ({ settings, geo, geoDefult, markers, apiHasLoaded }) => {
   return (
     <Container>
       <GoogleMapReact
@@ -14,10 +14,10 @@ const Map = ({ settings, geo, markers }) => {
           language: 'pt',
           region: 'br'
         }}
-        defaultCenter={geo.center}
+        defaultCenter={geoDefult.center}
         center={geo.center}
-        defaultZoom={13}
-        //Todo Listen API Loaded
+        zoom={geo.zoom || 13}
+        onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
         yesIWantToUseGoogleMapApiInternals
       >
         {markers.map((item, index) => (
@@ -33,4 +33,4 @@ const Map = ({ settings, geo, markers }) => {
   )
 }
 
-export default Map
+export default memo(Map)
