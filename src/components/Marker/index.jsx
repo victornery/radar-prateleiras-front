@@ -16,9 +16,7 @@ const Marker = ({ data }) => {
   const { name, tel, address, officeHour } = data
   const [itemOpened, setItemOpened] = useState(false)
 
-  const handleOpenInfo = () => {
-    setItemOpened(!itemOpened)
-  }
+  const handleOpenInfo = () => setItemOpened(!itemOpened)
 
   return (
     <Holder>
