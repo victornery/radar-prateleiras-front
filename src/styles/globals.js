@@ -13,6 +13,10 @@ const base = `
     }
   }
 
+  body {
+    margin: 0;
+  }
+
   a {
     color: ${colors.primary};
     text-decoration: none;
