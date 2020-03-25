@@ -1,6 +1,14 @@
 import { typography, colors, breakpoints } from './theme'
 
 const base = `
+  *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   html {
     font-size: ${typography.base};
     font-family: ${typography.body};
