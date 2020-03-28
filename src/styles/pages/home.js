@@ -15,7 +15,7 @@ const transitionTime = css`
 `
 
 export const InitialView = styled.div`
-  z-index: 5;
+  z-index: 1000;
   width: 100%;
   height: 100vh;
   background-color: transparent;
