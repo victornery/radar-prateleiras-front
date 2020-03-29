@@ -18,7 +18,7 @@ export default ({ children }) => {
           'value',
           snapshot => {
             if (!loadingData) setLoadingData(true)
-            setData(snapshot.val())
+            if (snapshot) setData(snapshot.val())
           },
           error => {
             throw Error(error)

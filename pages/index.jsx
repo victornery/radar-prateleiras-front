@@ -1,5 +1,13 @@
 import React, { useState, useCallback } from "react"
-import Map from "../src/components/Map"
+import dynamic from 'next/dynamic'
+
+import  'leaflet/dist/leaflet.css'
+
+// Leaflet doesn't works in Server Side
+const Map = dynamic(
+  () => import('../src/components/Map'),
+  { ssr: false }
+)
 
 import {
   Main,
@@ -11,10 +19,6 @@ import {
   Button,
   Social
 } from "../src/styles/pages/home"
-
-import { useData } from "../src/context/dataContext"
-
-const mapKey = process.env.GOOGLE_MAPS_API_KEY
 
 const markers = [
   {
@@ -68,27 +72,21 @@ const markers = [
 ]
 
 const DEFAULT = {
-  MAP_SETTINGS: {
-    mapKey
-  },
   GEO: {
     accepted: null,
     center: {
       lat: -3.71839,
       lng: -38.5434
-    }
+    },
+    zoom: 13
   }
 }
 
 const Index = () => {
-  // Our custom hook to get context values
-  const { data, loadingData } = useData()
   const [geolocationInfos, setGeo] = useState(DEFAULT.GEO)
   const [showMap, setShowMap] = useState(false)
   const [isGetLocation, setIsGetLocation] = useState(false)
-  const [apiHasLoaded, setApiHasLoaded] = useState(false)
-
-  const handleShowMap =() => setShowMap(true)
+  const handleShowMap = () => setShowMap(true)
 
   const handleGeolocation = () => {
     if (navigator.geolocation) {
@@ -101,7 +99,7 @@ const Index = () => {
               lat: coords.latitude || coords.lat,
               lng: coords.longitude || coords.lng
             },
-            zoom: 15
+            zoom: 17
           }
           setGeo(newLocation)
           handleShowMap()
@@ -111,10 +109,6 @@ const Index = () => {
         console.log("Error while capture geolocation: ", error)
       }
     }
-  }
-
-  const handleApiHasLoaded = (map, maps) => {
-    setApiHasLoaded(true)
   }
 
   return (
@@ -148,10 +142,7 @@ const Index = () => {
       </InitialView>
       <Map
         markers={markers}
-        settings={DEFAULT.MAP_SETTINGS}
         geo={geolocationInfos}
-        geoDefult={DEFAULT.GEO}
-        apiHasLoaded={handleApiHasLoaded}
       />
     </Main>
   )

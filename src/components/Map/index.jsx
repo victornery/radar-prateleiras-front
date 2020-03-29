@@ -1,36 +1,52 @@
 import React, { useState, useEffect, memo } from 'react'
-import GoogleMapReact from 'google-map-react'
+import L from 'leaflet'
+import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet'
 
-import Marker from '../Marker'
+import { Container, Info, Title, Tel, Address, OfficeHour } from './styles'
 
-import { Container } from './styles'
+const Map = ({ geo, markers }) => {
+  const { center, zoom } = geo
+  const position = [center.lat, center.lng]
 
-const Map = ({ settings, geo, geoDefult, markers, apiHasLoaded }) => {
+  // Aproach to load the Custom Icon
+  useEffect(() => {
+    delete L.Icon.Default.prototype._getIconUrl
+    L.Icon.Default.mergeOptions({
+      iconUrl: 'marker.svg'
+    })
+  }, [])
+
   return (
     <Container>
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: settings.mapKey,
-          language: 'pt',
-          region: 'br'
-        }}
-        defaultCenter={geoDefult.center}
-        center={geo.center}
-        zoom={geo.zoom || 13}
-        onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
-        yesIWantToUseGoogleMapApiInternals
-      >
+      <LeafletMap center={position} zoom={zoom}>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+        />
         {markers.map((item, index) => (
-          <Marker
-            lat={item.coords.lat}
-            lng={item.coords.lng}
-            key={index}
-            data={item}
-          />
+          <Marker key={index} position={[item.coords.lat, item.coords.lng]}>
+            <Popup>
+              <Info>
+                <Title> {item.name} </Title>
+                <Tel>
+                  <strong> Telefone: </strong>
+                  {item.tel}
+                </Tel>
+                <Address>
+                  <strong> Endereço: </strong>
+                  {item.address}
+                </Address>
+                <OfficeHour>
+                  <strong> Horário de Fncionamento: </strong>
+                  {item.officeHour.open} - {item.officeHour.close}
+                </OfficeHour>
+              </Info>
+            </Popup>
+          </Marker>
         ))}
-      </GoogleMapReact>
+      </LeafletMap>
     </Container>
   )
 }
 
-export default memo(Map)
+export default Map
