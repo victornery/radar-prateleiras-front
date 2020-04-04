@@ -7,6 +7,6 @@ export const SITE_TITLE = 'Radar Prateleiras'
 export const SITE_DESCRIPTION = 'Fazendo uma ponte do povo para as prateleiras.'
 export const SITE_IMAGE = ''
 export const SITE_AUTHOR = '@radarprateleiras'
-export const SITE_KEYWORDS = ''
+export const SITE_KEYWORDS = ['covid19', 'solidariedade', 'trabalho voluntário']
 export const SITE_URL = 'https://radarprateleiras.com.br'
 export const TWITTER_HANDLE = ''
