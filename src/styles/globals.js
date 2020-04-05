@@ -1,6 +1,6 @@
-import { typography, colors, breakpoints } from './theme'
+import { css } from '@emotion/core'
 
-const base = `
+export default ({ typography, colors, breakpoints }) => css`
   *,
   *::after,
   *::before {
@@ -39,12 +39,12 @@ const base = `
   button {
     font-family: ${typography.button};
   }
-  
+
   input,
   select,
   textarea {
-    padding: .9rem 1rem;
-    margin-bottom: .8rem;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.8rem;
 
     font-family: ${typography.body};
 
@@ -64,22 +64,20 @@ const base = `
 
   h3 {
     font: ${typography.h3};
-    margin: .5rem 0;
+    margin: 0.5rem 0;
   }
 
   @media (min-width: ${breakpoints.small}px) {
     h1 {
       font: ${typography.h1Desk};
     }
-  
+
     h2 {
       font: ${typography.h2Desk};
     }
-  
+
     h3 {
       font: ${typography.h3Desk};
     }
   }
 `
-
-export default base

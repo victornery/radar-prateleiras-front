@@ -1,8 +1,6 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/core'
 
-import { breakpoints } from '../theme'
-
 export const Main = styled.main`
   background-color: #fbfbfb;
   height: 100vh;
@@ -46,7 +44,7 @@ export const OverLay = styled.div`
     opacity: 0;
   `}
   
-  @media (min-width: ${breakpoints.small}px ) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.small}px ) {
     display: block;
   }
 `
@@ -67,7 +65,7 @@ export const Welcome = styled.aside`
     opacity: 0;
   `}
 
-@media (min-width: ${breakpoints.small}px ) {
+@media (min-width: ${({ theme }) => theme.breakpoints.small}px ) {
     width: 65%;
   }
 `
