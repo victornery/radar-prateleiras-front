@@ -8,8 +8,13 @@ const Map = dynamic(
   () => import('../src/components/Map'),
   { ssr: false }
 )
+const AutoComplete = dynamic(
+  () => import('../src/components/Autocomplete'),
+  { ssr: false }
+) 
+ 
 
-import {
+import { 
   Main,
   InitialView,
   OverLay,
@@ -88,6 +93,7 @@ const Index = () => {
   const [isGetLocation, setIsGetLocation] = useState(false)
   const handleShowMap = () => setShowMap(true)
 
+  
   const handleGeolocation = () => {
     if (navigator.geolocation) {
       try {
@@ -99,7 +105,7 @@ const Index = () => {
               lat: coords.latitude || coords.lat,
               lng: coords.longitude || coords.lng
             },
-            zoom: 17
+            zoom: 15
           }
           setGeo(newLocation)
           handleShowMap()
@@ -109,6 +115,17 @@ const Index = () => {
         console.log("Error while capture geolocation: ", error)
       }
     }
+  }
+
+  const handleSetSuggetion = (suggestion) => {
+    const { latlng: center } = suggestion 
+
+    const newLocation = {
+      center,
+      zoom: 15
+    }
+
+    setGeo(newLocation)
   }
 
   return (
@@ -144,6 +161,7 @@ const Index = () => {
         markers={markers}
         geo={geolocationInfos}
       />
+      <AutoComplete setSugestion={handleSetSuggetion} />
     </Main>
   )
 }

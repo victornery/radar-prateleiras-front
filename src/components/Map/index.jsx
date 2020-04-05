@@ -1,6 +1,12 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useEffect } from 'react'
 import L from 'leaflet'
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet'
+import {
+  Map as LeafletMap,
+  TileLayer,
+  Marker,
+  Popup,
+  ZoomControl
+} from 'react-leaflet'
 
 import { Container, Info, Title, Tel, Address, OfficeHour } from './styles'
 
@@ -12,13 +18,16 @@ const Map = ({ geo, markers }) => {
   useEffect(() => {
     delete L.Icon.Default.prototype._getIconUrl
     L.Icon.Default.mergeOptions({
-      iconUrl: 'marker.svg'
+      iconRetinaUrl: 'marker.svg',
+      shadowUrl: 'marker.svg'
     })
   }, [])
 
   return (
     <Container>
-      <LeafletMap center={position} zoom={zoom}>
+      <LeafletMap center={position} zoomControl={false} zoom={zoom}>
+        <ZoomControl position="bottomleft" />
+
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"

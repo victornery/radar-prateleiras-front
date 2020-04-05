@@ -8,7 +8,7 @@
 //---------------------------------
 //    Colors variables are used with the syntax below
 //    const EmotionComponent = styled.selector`
-//      $rule:  ${colors.colorName};
+//      $rule:  ${({ theme }) => colors.colorName};
 //    `
 //    not color names as it won't affect your project in the long run
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ const colors = {
 //    MQ variables are defined as number and are used with the syntax below.
 //
 //      const EmotionComponent = styled.selector`
-//        @media (min-width: ${breakpoints.small}px) {
+//        @media (min-width: ${({theme}) => theme.breakpoints.small}px) {
 //          ...
 //        }
 //      `
@@ -60,4 +60,4 @@ const typography = {
   body: '"Montserrat", sans-serif'
 }
 
-export { colors, breakpoints, typography }
+export default { colors, breakpoints, typography }

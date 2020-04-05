@@ -8,6 +8,7 @@ module.exports = (api) => {
       {
         "autoLabel": process.env.NODE_ENV !== 'production',
         "labelFormat": "[local]",
+        "cssPropOptimization": true
       }
     ]]
   }
